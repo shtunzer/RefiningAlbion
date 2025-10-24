@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const per = +document.getElementById('amountPerResource').value || 0;
         const r = +document.getElementById('returnRateResource').value || 0;
         const res = Math.round((q * per * (1 - r / 100)) * 100) / 100;
-        const out = document.getElementById('totalConsumption');
-        if (out) out.value = res;
+        document.getElementById('totalConsumption').value = res;
     }
 
     function calculateProfit() {
@@ -29,15 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const p2 = +document.getElementById('secondMaterialPrice').value || 0;
         const r = +document.getElementById('returnRateProfit').value || 0;
         const cost = (a * p1 + p2) * (1 - r / 100);
-        const profitAbs = p - cost;
-        const profitPerc = cost ? Math.round((profitAbs / cost) * 10000) / 100 : 0;
-        const out = document.getElementById('profitPercentage');
-        if (out) out.value = profitPerc;
+        const profit = p - cost;
+        document.getElementById('profitPercentage').value = cost ? Math.round((profit / cost) * 10000) / 100 : 0;
+    }
+
+    function calculateCraft() {
+        const p1 = +document.getElementById('itemPrice').value || 0;
+        const p2 = +document.getElementById('firstResourcePrice').value || 0;
+        const p3 = +document.getElementById('secondResourcePrice').value || 0;
+        const p4 = +document.getElementById('artifactPrice').value || 0;
+        const a1 = +document.getElementById('firstResourceAmount').value || 0;
+        const a2 = +document.getElementById('secondResourceAmount').value || 0;
+        const r = +document.getElementById('craftReturnRate').value || 0;
+        const cost = ((p2 * a1 + p3 * a2) * (1 - r/100)) + p4;
+        const profit = p1 - cost;
+        document.getElementById('craftProfit').value = cost ? Math.round((profit / cost) * 10000) / 100 : 0;
+    }
+
+    function calculateArtifacts() {
+        const total = +document.getElementById('resourceTotal').value || 0;
+        const perItem = +document.getElementById('resourcePerItem').value || 0;
+        const rate = +document.getElementById('artifactReturn').value || 0;
+        const result = total / (1 - rate / 100);
+        document.getElementById('artifactResult').value = perItem ? Math.floor(result / perItem) : 0;
     }
 
     window.showTab = showTab;
     window.calculateResource = calculateResource;
     window.calculateProfit = calculateProfit;
+    window.calculateCraft = calculateCraft;
+    window.calculateArtifacts = calculateArtifacts;
 
     showTab('resource');
 });
